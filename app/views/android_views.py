@@ -8,7 +8,7 @@ def get_categories(request):
     data = []
     categories = Category.objects.filter(is_active=True)
     for c in categories:
-        data.append({'id':c.id,'name':c.name})
+        data.append({'id':c.id,'name':c.name,'image':c.image})
 
-    data = simplejson.dumps({'object':data})
+    data = simplejson.dumps({'objects':data})
     return HttpResponse(data, content_type='application/json')
