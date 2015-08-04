@@ -28,6 +28,7 @@ def admin_login(request):
 				login(request, user)
 				# logger.debug('user_login ' + username)
 				next_page = request.GET.get('next')
+				print next_page
 				if next_page:
 					return HttpResponseRedirect(next_page)
 				return HttpResponseRedirect('/admin/')
@@ -40,3 +41,5 @@ def admin_login(request):
 			return render(request, 'login.html', context)
 	else:
 		return render(request, 'login.html', context)
+
+

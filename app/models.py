@@ -13,8 +13,8 @@ class Category(BaseModel):
     is_active = models.BooleanField(default=True)
     image = models.CharField(max_length=300)
 
-class Image(BaseModel):
-    link = models.CharField(max_length=200)
+class Gallery(BaseModel):
+    image_link = models.CharField(max_length=200)
     short_description = models.CharField(max_length=100)
 
 class Location(BaseModel):
@@ -24,9 +24,15 @@ class Location(BaseModel):
 class Place(BaseModel):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
-    images = models.ManyToManyField(Image)
+    image = models.CharField(max_length=200,default="")
     location = models.ForeignKey(Location)
-    description = models.CharField(max_length=300)
-    duration = models.IntegerField(default=0,null=True)
+    short_description = models.CharField(max_length=300,default="")
+    duration = models.CharField(max_length=100,default="")
     budget = models.IntegerField(default=0,null=True)
+    category = models.ForeignKey(Category)
+    gallery = models.ManyToManyField(Gallery,default=None)
 
+class Description(BaseModel):
+    text = models.TextField()
+    heading = models.CharField(max_length=100)
+    place = models.ForeignKey(Place,null=True)
