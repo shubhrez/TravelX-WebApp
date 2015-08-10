@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block loggeduser %}
+    {{ user.username }}
+{% endblock %}
+
+{% block bodycontent %}
+
+    <!-- page content -->
+            <div class="right_col" role="main">
+
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>{{ category.name }}</h3>
+                        </div>
+
+                        <div class="title_right">
+                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2><i></i> Tabs <small>Float left</small></h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+
+                                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Details</a>
+                                            </li>
+                                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">Image</a>
+                                            </li>
+
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="x_panel">
+                                                            <div class="x_content">
+                                                                <br />
+                                                                <form id="demo-form2" method="post" action="/admin/edit_category/{{ category.id }}" data-parsley-validate class="form-horizontal form-label-left">
+
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-md-2 col-sm-2 col-xs-2">Category ID</label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                            <input type="text" class="form-control" disabled="disabled" value="{{ category.id }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-md-2 col-sm-2 col-xs-2" for="last-name">Name <span class="required">*</span>
+                                                                        </label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12"n value="{{ category.name }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-2">Is Active</label>
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input {% if category.is_active %} checked {% endif %} type="checkbox" class="flat">
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ln_solid"></div>
+                                                                    <div class="form-group">
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-6">
+                                                                            <button type="submit" class="btn btn-success">Save</button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                                <div id="image_div">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <input type="text" id="cat_image" name="category_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ category.image }}">
+                                                        </div>
+                                                         <a target="_blank" href="{{category.image}}" id="c_image"><img height="250" width="400" src="{{category.image}}"></a>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-6">
+                                                            <button type="button" onclick="refresh_image()" class="btn btn-success">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+
+{% block jscontent %}
+
+<script>
+
+    function refresh_image(){
+        var c_id = {{ category.id }};
+        var c_image = $('#cat_image').val();
+        if(c_image!=''){
+            var ref_image = '/admin/change_category_image/?category_id='+c_id+'&category_image='+encodeURIComponent(c_image);
+            document.getElementById("image_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';
+            $('#image_div').load(ref_image, function(){
+
+              });
+        }
+    }
+</script>
+
+{% endblock %}
