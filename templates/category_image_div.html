@@ -1,12 +1,22 @@
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <input type="text" id="cat_image" name="category_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ image }}">
-    </div>
-     <a target="_blank" href="{{image}}" id="c_image"><img height="250" width="400" src="{{image}}"></a>
-</div>
-<br>
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-6">
-        <button type="button" onclick="refresh_image()" class="btn btn-success">Save</button>
+<div class="x_panel">
+    <div class="x_content">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="align:center">Image</th>
+                    <th style="align:center">Link</th>
+                    <th style="align:center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a target="_blank" href="{{image}}" id="c_image"><img height="250" width="400" src="{{image}}"></a></td>
+                    <td class="col-md-6" style="vertical-align: middle"><input type="text" id="cat_image" name="category_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ image }}"></td>
+                    <td style="vertical-align: middle"><button type="button" onclick="refresh_image()" class="btn btn-success">Save</button></td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 </div>

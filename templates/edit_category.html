@@ -59,26 +59,26 @@
                                                         <div class="x_panel">
                                                             <div class="x_content">
                                                                 <br />
-                                                                <form id="demo-form2" method="post" action="/admin/edit_category/{{ category.id }}" data-parsley-validate class="form-horizontal form-label-left">
-
+                                                                <form id="demo-form2" method="post" action="/admin/edit_category/{{ category.id }}/" data-parsley-validate class="form-horizontal form-label-left">
+                                                                    {% csrf_token %}
                                                                     <div class="form-group">
                                                                         <label class="control-label col-md-2 col-sm-2 col-xs-2">Category ID</label>
                                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                            <input type="text" class="form-control" disabled="disabled" value="{{ category.id }}">
+                                                                            <input name="id" type="text" class="form-control" disabled="disabled" value="{{ category.id }}">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label class="control-label col-md-2 col-sm-2 col-xs-2" for="last-name">Name <span class="required">*</span>
                                                                         </label>
                                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12"n value="{{ category.name }}">
+                                                                            <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12"n value="{{ category.name }}">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-2">Is Active</label>
                                                                         <div class="checkbox">
                                                                             <label>
-                                                                                <input {% if category.is_active %} checked {% endif %} type="checkbox" class="flat">
+                                                                                <input name="is_active" {% if category.is_active %} checked {% endif %} type="checkbox" class="flat">
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -96,16 +96,38 @@
                                                 </div>
                                             <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
                                                 <div id="image_div">
-                                                    <div class="form-group">
-                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                            <input type="text" id="cat_image" name="category_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ category.image }}">
-                                                        </div>
-                                                         <a target="_blank" href="{{category.image}}" id="c_image"><img height="250" width="400" src="{{category.image}}"></a>
-                                                    </div>
-                                                    <br>
-                                                    <div class="form-group">
-                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-6">
-                                                            <button type="button" onclick="refresh_image()" class="btn btn-success">Save</button>
+{#                                                    <div class="form-group">#}
+{#                                                        <div class="col-md-6 col-sm-6 col-xs-12">#}
+{#                                                            <input type="text" id="cat_image" name="category_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ category.image }}">#}
+{#                                                        </div>#}
+{#                                                         <a target="_blank" href="{{category.image}}" id="c_image"><img height="250" width="400" src="{{category.image}}"></a>#}
+{#                                                    </div>#}
+{#                                                    <br>#}
+{#                                                    <div class="form-group">#}
+{#                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-6">#}
+{#                                                            <button type="button" onclick="refresh_image()" class="btn btn-success">Save</button>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+                                                    <div class="x_panel">
+                                                        <div class="x_content">
+
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="align:center">Image</th>
+                                                                        <th style="align:center">Link</th>
+                                                                        <th style="align:center">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><a target="_blank" href="{{category.image}}" id="c_image"><img height="250" width="400" src="{{category.image}}"></a></td>
+                                                                        <td class="col-md-6" style="vertical-align: middle"><input type="text" id="cat_image" name="category_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ category.image }}"></td>
+                                                                        <td style="vertical-align: middle"><button type="button" onclick="refresh_image()" class="btn btn-success">Save</button></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
                                                         </div>
                                                     </div>
                                                 </div>

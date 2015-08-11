@@ -13,4 +13,6 @@ urlpatterns = patterns('',
     url(r'^all_places/$', views.all_places, name='all_places'),
 	url(r'^edit_place/(?P<id>\d+)/$', views.edit_place, name='edit_place'),
 	url(r'^change_category_image/$', views.change_category_image, name='change_category_image'),
+	url(r'^change_place_image/$', views.change_place_image, name='change_place_image'),
+	url(r'^add_image_to_place_gallery/$', views.add_image_to_place_gallery, name='add_image_to_place_gallery'),
 	)

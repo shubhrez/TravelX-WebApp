@@ -49,7 +49,9 @@
                                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                                             <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Details</a>
                                             </li>
-                                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab"  aria-expanded="false">Image</a>
+                                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="image-tab" data-toggle="tab"  aria-expanded="false">Image</a>
+                                            </li>
+                                            <li role="presentation" class=""><a href="#tab_content3" role="tab" id="gallery-tab" data-toggle="tab"  aria-expanded="false">Gallery</a>
                                             </li>
 
                                         </ul>
@@ -59,47 +61,47 @@
                                                         <div class="x_panel">
                                                             <div class="x_content">
                                                                 <br />
-                                                                <form id="demo-form2" method="post" action="/admin/edit_place/{{ place.id }}" data-parsley-validate class="form-horizontal form-label-left">
-
+                                                                <form id="demo-form2" method="post" action="/admin/edit_place/{{ place.id }}/" data-parsley-validate class="form-horizontal form-label-left">
+                                                                    {% csrf_token %}
                                                                     <div class="form-group">
                                                                         <label class="control-label col-md-2 col-sm-2 col-xs-2">Category ID</label>
                                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                            <input type="text" class="form-control" disabled="disabled" value="{{ place.id }}">
+                                                                            <input name="id" type="text" class="form-control" disabled="disabled" value="{{ place.id }}">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label class="control-label col-md-2 col-sm-2 col-xs-2" for="last-name">Name <span class="required">*</span>
                                                                         </label>
                                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.name }}">
+                                                                            <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.name }}">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label class="control-label col-md-2 col-sm-2 col-xs-2" for="last-name">Short Description <span class="required">*</span>
                                                                         </label>
                                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.short_description }}">
+                                                                            <input type="text" id="short_description" name="short_description" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.short_description }}">
                                                                         </div>
                                                                     </div>
                                                                 <div class="form-group">
                                                                         <label class="control-label col-md-2 col-sm-2 col-xs-2" for="last-name">Duration <span class="required">*</span>
                                                                         </label>
                                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.duration }}">
+                                                                            <input type="text" id="duration" name="duration" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.duration }}">
                                                                         </div>
                                                                     </div>
                                                                 <div class="form-group">
                                                                         <label class="control-label col-md-2 col-sm-2 col-xs-2" for="last-name">Budget<span class="required">*</span>
                                                                         </label>
                                                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.budget }}">
+                                                                            <input type="text" id="budget" name="budget" required="required" class="form-control col-md-7 col-xs-12" value="{{ place.budget }}">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-2">Is Active</label>
                                                                         <div class="checkbox">
                                                                             <label>
-                                                                                <input {% if place.is_active %} checked {% endif %} type="checkbox" class="flat">
+                                                                                <input name="is_active" {% if place.is_active %} checked {% endif %} type="checkbox" class="flat">
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -115,26 +117,143 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                                                <form id="demo-form2" method="post" action="/admin/change_place_image/{{ place.id }}" data-parsley-validate class="form-horizontal form-label-left">
-                                                    <br>
-                                                    <br>
-                                                    <div class="form-group">
-                                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                                            <input type="text" id="last-name" name="place_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ place.image }}">
-                                                        </div>
-                                                         <a target="_blank" href="{{place.image}}" id="p_image{{ place.id }}"><img height="250" width="400" src="{{place.image}}"></a>
-                                                    </div>
-                                                    <br>
-                                                    <br>
-                                                    <div class="form-group">
-                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-6">
-                                                            <button type="submit" class="btn btn-success">Save</button>
-                                                        </div>
-                                                    </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="image-tab">
+{#                                                <form id="demo-form2" method="post" action="/admin/change_place_image/{{ place.id }}" data-parsley-validate class="form-horizontal form-label-left">#}
+{#                                                    <br>#}
+{#                                                    <br>#}
+{#                                                    <div class="form-group">#}
+{#                                                        <div class="col-md-6 col-sm-6 col-xs-12">#}
+{#                                                            <input type="text" id="last-name" name="place_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ place.image }}">#}
+{#                                                        </div>#}
+{#                                                         <a target="_blank" href="{{place.image}}" id="p_image{{ place.id }}"><img height="250" width="400" src="{{place.image}}"></a>#}
+{#                                                    </div>#}
+{#                                                    <br>#}
+{#                                                    <br>#}
+{#                                                    <div class="form-group">#}
+{#                                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-6">#}
+{#                                                            <button type="submit" class="btn btn-success">Save</button>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{##}
+{#                                                </form>#}
+                                                <div id="image_div">
+                                                    <div class="x_panel">
+                                                        <div class="x_content">
 
-                                                </form>
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="align:center">Image</th>
+                                                                        <th style="align:center">Link</th>
+                                                                        <th style="align:center">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><a target="_blank" href="{{place.image}}" id="p_image"><img height="250" width="400" src="{{place.image}}"></a></td>
+                                                                        <td class="col-md-6" style="vertical-align: middle"><input type="text" id="place_image" name="place_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ place.image }}"></td>
+                                                                        <td style="vertical-align: middle"><button type="button" onclick="refresh_image()" class="btn btn-success">Save</button></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content3" aria-labelledby="gallery-tab">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="clearfix"></div>
+
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="x_panel">
+                                                                        <div class="x_title">
+                                                                            <h2>Media Gallery <small> gallery design </small></h2>
+                                                                            <ul class="nav navbar-right panel_toolbox">
+{#                                                                                href="/admin/add_gallery_place/{{ place.id }}" #}
+                                                                                <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="btn btn-primary" type="button">Add Image To Gallery</a> </li>
+
+                                                                                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                                                                    <div class="modal-dialog modal-lg">
+                                                                                        <div class="modal-content">
+
+                                                                                            <div class="modal-header">
+                                                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                                                                </button>
+                                                                                                <h4 class="modal-title" id="myModalLabel">Add Images to {{ place.name }}</h4>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <div class="col-xs-12">
+                                                                                                    <input type="text" id="new_image_link" name="new_image_link" required="required" class="form-control col-md-7 col-xs-12" placeholder="Paste Image Link">
+                                                                                                </div>
+                                                                                                <br>
+                                                                                                <br>
+                                                                                                <div class="col-xs-12">
+                                                                                                    <input type="text" id="new_short_description" name="new_short_description" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Short Description">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <br>
+                                                                                            <br>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                                <button type="button" onclick="add_image_to_gallery_refresh()" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                                </li>
+                                                                                <li class="dropdown">
+                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                                                    <ul class="dropdown-menu" role="menu">
+                                                                                        <li><a href="#">Settings 1</a>
+                                                                                        </li>
+                                                                                        <li><a href="#">Settings 2</a>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </li>
+                                                                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                                                                </li>
+{#                                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>#}
+                                                                            </ul>
+                                                                            <div class="clearfix"></div>
+                                                                        </div>
+                                                                        <div class="x_content">
+
+                                                                            <div id="gallery_div" class="row">
+                                                                                {% for g in place.gallery.all %}
+                                                                                <div href="{{ g.image_link }}" class="col-md-55">
+                                                                                    <div class="thumbnail">
+                                                                                        <div class="image view view-first">
+                                                                                            <img style="width: 100%;height: 100%; display: block;" src="{{ g.image_link }}" alt="image" />
+                                                                                            <div class="mask">
+                                                                                                <p>Your Text</p>
+                                                                                                <div class="tools tools-bottom">
+                                                                                                    <a href="#"><i class="fa fa-link"></i></a>
+                                                                                                    <a href="#"><i class="fa fa-pencil"></i></a>
+                                                                                                    <a href="#"><i class="fa fa-times"></i></a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="caption">
+                                                                                            <p>{{ g.short_description }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                {% endfor %}
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
 
@@ -149,6 +268,31 @@
 
 {% block jscontent %}
 
+<script>
+    function refresh_image(){
+        var p_id = {{ place.id }};
+        var p_image = $('#place_image').val();
+        if(p_image!=''){
+            var ref_image = '/admin/change_place_image/?place_id='+p_id+'&place_image='+encodeURIComponent(p_image);
+            document.getElementById("image_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';
+            $('#image_div').load(ref_image, function(){
 
+              });
+        }
+    }
+
+    function add_image_to_gallery_refresh(){
+        var p_id = {{ place.id }};
+        var p_image = $('#new_image_link').val();
+        var short_description = $('#new_short_description').val();
+        if(p_image!=''){
+            var ref_image = '/admin/add_image_to_place_gallery/?place_id='+p_id+'&place_image='+encodeURIComponent(p_image)+'&short_description='+short_description;
+            document.getElementById("gallery_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';
+            $('#gallery_div').load(ref_image, function(){
+
+              });
+        }
+    }
+</script>
 
 {% endblock %}
