@@ -1,5 +1,4 @@
-<div>
-    {% for g in place.gallery.all %}
+{% for g in place.gallery.all %}
     <div href="{{ g.image_link }}" class="col-md-55">
         <div class="thumbnail">
             <div class="image view view-first">
@@ -18,5 +17,4 @@
             </div>
         </div>
     </div>
-    {% endfor %}
-</div>
+{% endfor %}

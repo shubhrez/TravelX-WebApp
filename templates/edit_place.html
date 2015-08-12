@@ -51,7 +51,9 @@
                                             </li>
                                             <li role="presentation" class=""><a href="#tab_content2" role="tab" id="image-tab" data-toggle="tab"  aria-expanded="false">Image</a>
                                             </li>
-                                            <li role="presentation" class=""><a href="#tab_content3" role="tab" id="gallery-tab" data-toggle="tab"  aria-expanded="false">Gallery</a>
+                                            <li role="presentation" class=""><a href="#tab_content3" role="tab" id="desc-tab" data-toggle="tab"  aria-expanded="false">Description</a>
+                                            </li>
+                                            <li role="presentation" class=""><a href="#tab_content4" role="tab" id="gallery-tab" data-toggle="tab"  aria-expanded="false">Gallery</a>
                                             </li>
 
                                         </ul>
@@ -103,6 +105,17 @@
                                                                             <label>
                                                                                 <input name="is_active" {% if place.is_active %} checked {% endif %} type="checkbox" class="flat">
                                                                             </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-md-2 col-sm-2 col-xs-2">Category</label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                            <select name="category" class="form-control">
+                                                                                <option>Choose option</option>
+                                                                                {% for c in categories %}
+                                                                                <option value="{{ c.id }}" {% if c == selected_cat %} selected {% endif %}>{{ c.name }}</option>
+                                                                                {% endfor %}
+                                                                            </select>
                                                                         </div>
                                                                     </div>
                                                                     <div class="ln_solid"></div>
@@ -162,7 +175,35 @@
                                                 </div>
                                             </div>
 
-                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content3" aria-labelledby="gallery-tab">
+                                             <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="desc-tab">
+    {#
+                                                    <div id="image_div">
+                                                        <div class="x_panel">
+                                                            <div class="x_content">
+
+                                                                <table class="table">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="align:center">Image</th>
+                                                                            <th style="align:center">Link</th>
+                                                                            <th style="align:center">Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td><a target="_blank" href="{{place.image}}" id="p_image"><img height="250" width="400" src="{{place.image}}"></a></td>
+                                                                            <td class="col-md-6" style="vertical-align: middle"><input type="text" id="place_image" name="place_image" required="required" class="form-control col-md-3 col-xs-12" value="{{ place.image }}"></td>
+                                                                            <td style="vertical-align: middle"><button type="button" onclick="refresh_image()" class="btn btn-success">Save</button></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="gallery-tab">
                                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                                         <div class="clearfix"></div>
 
@@ -174,7 +215,6 @@
                                                                             <ul class="nav navbar-right panel_toolbox">
 {#                                                                                href="/admin/add_gallery_place/{{ place.id }}" #}
                                                                                 <li><a data-toggle="modal" data-target=".bs-example-modal-lg" class="btn btn-primary" type="button">Add Image To Gallery</a> </li>
-
                                                                                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                                                                     <div class="modal-dialog modal-lg">
                                                                                         <div class="modal-content">

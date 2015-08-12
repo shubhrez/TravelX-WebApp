@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 import urllib
 import datetime as dt
 from django.contrib import messages
+import os
 
 # def admin_login(request):
 # 	next_page = request.GET.get('next', '')
@@ -108,8 +109,12 @@ def all_places(request):
 
 def edit_place(request,id):
 	place = Place.objects.get(pk=id)
+	categories = Category.objects.all()
+	selected_cat = place.category
 	context={
 		'place' : place,
+		'categories' : categories,
+		'selected_cat' : selected_cat,
 	}
 	if request.method == "POST":
 		name = request.POST.get('name','')
@@ -117,6 +122,9 @@ def edit_place(request,id):
 		short_description = request.POST.get('short_description','')
 		duration = request.POST.get('duration','')
 		budget = request.POST.get('budget','')
+
+		category_id = request.POST.get('category','')
+		category = Category.objects.get(pk=category_id)
 
 		is_active_value = False
 		if is_active == 'on':
@@ -126,16 +134,90 @@ def edit_place(request,id):
 		place.short_description = short_description
 		place.duration = duration
 		place.budget = budget
+		place.category=category
 		place.save()
 
 	return render(request,'edit_place.html',context)
 
 def add_category(request):
+	if request.method == 'POST':
+		print "called"
+		name = request.POST.get('name','')
+		image_url = request.POST.get('image','')
+		is_active = request.POST.get('is_active','')
+		is_active_value = False
+		if is_active == 'true':
+			is_active_value = True
+		print name
 
-	context={
+		path='app/static/categoryImage/'
+		to_replace = 'app/'
+		if 'http' in image_url:
+			image = image_url
+			if '.png' in image:
+				newpath=path
+				urllib.urlretrieve(image, newpath+ name +'.png')
+				image = newpath.replace(to_replace,'/')+name+'.png'
+			else:
+				newpath=path
+				urllib.urlretrieve(image, newpath+name+'.jpg')
+				image = newpath.replace(to_replace,'/')+name+'.jpg'
 
+			category = Category(name=name,is_active=is_active_value,image=image)
+			category.save()
+
+	return render(request,'add_category.html')
+
+def add_place(request):
+	locations = Location.objects.all()
+	categories = Category.objects.all()
+	context = {
+		'locations' : locations,
+		'categories': categories,
 	}
-	return render(request,'add_category.html',context)
+
+	if request.method == 'POST':
+		print "called"
+		name = request.POST.get('name','')
+		print name
+		image_url = request.POST.get('image','')
+		description = request.POST.get('description','')
+		is_active = request.POST.get('is_active','')
+		time = request.POST.get('time','')
+		budget = request.POST.get('budget','')
+		location_id = request.POST.get('location','')
+		category_id = request.POST.get('category','')
+		print category_id
+
+		location = Location.objects.get(pk=location_id)
+		category = Category.objects.get(pk=category_id)
+
+		is_active_value = False
+		if is_active == 'true':
+			is_active_value = True
+		print is_active_value
+		path='app/static/placeImage/'
+		to_replace = 'app/'
+		if 'http' in image_url:
+			print "http"
+			image = image_url
+			if '.png' in image:
+				newpath=path
+				urllib.urlretrieve(image, newpath+ name +'.png')
+				image = newpath.replace(to_replace,'/')+name+'.png'
+			else:
+				newpath=path
+				urllib.urlretrieve(image, newpath+name+'.jpg')
+				image = newpath.replace(to_replace,'/')+name+'.jpg'
+
+			place = Place(name=name,is_active=is_active_value,image=image,duration=time,budget=budget,short_description=
+						  description,location=location,category=category)
+			print "saving place"
+			print place.name
+			place.save()
+			os.mkdir(os.path.join('app/static/galleryImage/', str(place.id)))
+
+	return render(request,'add_place.html',context)
 
 def change_category_image(request):
 	id = request.GET.get('category_id','')
