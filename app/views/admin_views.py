@@ -108,7 +108,7 @@ def edit_category(request,id):
 			action_flag     = CHANGE,
 			change_message="Changed Category" + str(category.pk)
 		)
-		messages.success(request, ' Category Saved',context)
+		messages.success(request, 'Category Saved')
 	return render(request,'edit_category.html',context)
 
 @login_required(login_url='/admin/login/')
@@ -152,7 +152,16 @@ def edit_place(request,id):
 		place.budget = budget
 		place.category=category
 		place.save()
+		LogEntry.objects.log_action(
+			user_id         = request.user.pk,
+			content_type_id = ContentType.objects.get_for_model(place).pk,
+			object_id       = place.pk,
+			object_repr     = str(place),
+			action_flag     = CHANGE,
+			change_message="Changed Category" + str(category.pk)
+		)
 		messages.success(request,"Place Have Been Saved Successfully",context)
+
 
 	return render(request,'edit_place.html',context)
 
@@ -478,3 +487,11 @@ def add_location(request):
 		'locations' : locations,
 	}
 	return render(request,'add_location.html',context)
+
+def all_logs(request):
+	logs = LogEntry.objects.all()
+
+	context = {
+		'logs' : logs,
+	}
+	return render(request,'all_logs.html',context)

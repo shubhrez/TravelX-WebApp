@@ -12,6 +12,8 @@ class Category(BaseModel):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     image = models.CharField(max_length=300)
+    def __unicode__(self):
+        return self.name
 
 class Gallery(BaseModel):
     image_link = models.CharField(max_length=200)
@@ -31,6 +33,8 @@ class Place(BaseModel):
     budget = models.IntegerField(default=0,null=True)
     category = models.ForeignKey(Category)
     gallery = models.ManyToManyField(Gallery,default=None)
+    def __unicode__(self):
+        return self.name
 
 class Description(BaseModel):
     text = models.TextField()

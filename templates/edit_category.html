@@ -147,19 +147,29 @@
 
 {% block jscontent %}
 
-<script>
+    <script>
 
-    function refresh_image(){
-        var c_id = {{ category.id }};
-        var c_image = $('#cat_image').val();
-        if(c_image!=''){
-            var ref_image = '/admin/change_category_image/?category_id='+c_id+'&category_image='+encodeURIComponent(c_image);
-            document.getElementById("image_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';
-            $('#image_div').load(ref_image, function(){
+        function refresh_image(){
+            var c_id = {{ category.id }};
+            var c_image = $('#cat_image').val();
+            if(c_image!=''){
+                var ref_image = '/admin/change_category_image/?category_id='+c_id+'&category_image='+encodeURIComponent(c_image);
+                document.getElementById("image_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';
+                $('#image_div').load(ref_image, function(){
 
-              });
+                  });
+            }
         }
-    }
-</script>
+    </script>
+
+    <script>
+        {% if messages %}
+                {% for message in messages %}
+                    $(document).ready(function() {
+                        alert({{ message }});
+                    });
+                {% endfor %}
+            {% endif %}
+    </script>
 
 {% endblock %}
