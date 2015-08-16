@@ -1,0 +1,10 @@
+app/static/
+.DS_Store
+*.pyc
+.idea
+.idea/
+venv/*
+.idea
+.idea/*
+__pycache__/
+*.py[cod]

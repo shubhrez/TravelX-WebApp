@@ -23,3 +23,25 @@ def get_places(request):
 
     data = simplejson.dumps({'objects':data})
     return HttpResponse(data, content_type='application/json')
+
+
+def get_place_details(request):
+
+    data=[]
+    place_id = request.GET.get('place_id','')
+    place = Place.objects.get(pk=place_id)
+    description1 = Description.objects.filter(place=place)
+    description = []
+    for d in description1:
+        desc = {'title' : d.heading,'text':d.text}
+        description.append(desc)
+    gallery1 = place.gallery.all()
+    gallery = []
+    for g in gallery1:
+        gal = {'image': g.image_link,'short_description' : g.short_description}
+        gallery.append(gal)
+
+    data.append({'description' : description , 'gallery' : gallery,'budget' : place.budget,'duration' : place.duration})
+
+    data = simplejson.dumps({'objects' : data})
+    return HttpResponse(data,content_type='application/json')

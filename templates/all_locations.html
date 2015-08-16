@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block bodycontent %}
+
+
+     <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>
+                                Locations
+                            </h3>
+                        </div>
+
+                        <div class="title_right">
+                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div id="location_div" class="row">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>All <small>Locations</small></h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a data-toggle="modal" data-target="#model_add_location" class="btn btn-primary" type="button">Add Location</a> </li>
+
+                                        <div id="model_add_location" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                        </button>
+                                                        <h4 class="modal-title" id="myModalLabel">Add Location</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">City <span class="required">*</span>
+                                                            </label>
+                                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                                <input type="text" id="city" name="city" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Tagline">
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <br>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">State <span class="required">*</span>
+                                                            </label>
+                                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                                <input type="text" id="state" name="state" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Tagline">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <br>
+                                                    <br>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" onclick="add_new_location()" class="btn btn-primary" data-dismiss="modal">Save & Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <li><a href="#" class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Settings 1</a>
+                                                </li>
+                                                <li><a href="#">Settings 2</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <table id="example" class="table table-striped responsive-utilities jambo_table">
+                                        <thead>
+                                            <tr class="headings">
+                                               <th>ID</th>
+                                                <th>City</th>
+                                                <th>State</th>
+                                                <th class=" no-link last"><span class="nobr">Action</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for l in locations %}
+                                                <tr class="even pointer">
+                                                    <td >{{ l.id }}</td>
+                                                    <td >{{ l.city }}</td>
+                                                    <td >{{ l.state }}</td>
+                                                    <td class=" no-link last"><a class="btn btn-success pull-right" href="/admin/edit_location/{{ l.id }}">Edit</a>
+                                                    </td>
+                                                </tr>
+                                        {% endfor %}
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <br />
+                        <br />
+
+                    </div>
+                </div>
+
+                </div>
+                <!-- /page content -->
+
+{% endblock %}
+
+{% block jscontent %}
+     <script>
+            $(document).ready(function () {
+                $('input.tableflat').iCheck({
+                    checkboxClass: 'icheckbox_flat-green',
+                    radioClass: 'iradio_flat-green'
+                });
+            });
+
+            var asInitVals = new Array();
+            $(document).ready(function () {
+                var oTable = $('#example').dataTable({
+                    "oLanguage": {
+                        "sSearch": "Search all columns:"
+                    },
+                    "aoColumnDefs": [
+                        {
+                            'bSortable': false,
+                            'aTargets': [0]
+                        } //disables sorting for column one
+            ],
+                    'iDisplayLength': 12,
+                    "sPaginationType": "full_numbers",
+                    "dom": 'T<"clear">lfrtip',
+                    "tableTools": {
+                        "sSwfPath": "<?php echo base_url('assets2/js/Datatables/tools/swf/copy_csv_xls_pdf.swf'); ?>"
+                    }
+                });
+                $("tfoot input").keyup(function () {
+                    /* Filter on the column based on the index of this element's parent <th> */
+                    oTable.fnFilter(this.value, $("tfoot th").index($(this).parent()));
+                });
+                $("tfoot input").each(function (i) {
+                    asInitVals[i] = this.value;
+                });
+                $("tfoot input").focus(function () {
+                    if (this.className == "search_init") {
+                        this.className = "";
+                        this.value = "";
+                    }
+                });
+                $("tfoot input").blur(function (i) {
+                    if (this.value == "") {
+                        this.className = "search_init";
+                        this.value = asInitVals[$("tfoot input").index(this)];
+                    }
+                });
+            });
+
+        </script>
+
+    <script>
+
+        function add_new_location(){
+            var state = $('#state').val();
+            var city = $('#city').val();
+            if(state!=''){
+                var url = '/admin/add_location/?city='+city+'&state='+state;
+                document.getElementById("location_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';
+                $('#location_div').load(url, function(){
+
+                  });
+            }
+        }
+    </script>
+{% endblock %}

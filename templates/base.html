@@ -23,6 +23,7 @@
     <link href="{% static "assets/css/icheck/flat/green.css" %}" rel="stylesheet">
     <link href="{% static "assets/css/datatables/tools/css/dataTables.tableTools.css" %}" rel="stylesheet">
 
+
     <script src="{% static "assets/js/jquery.min.js" %}"></script>
 
 </head>
@@ -69,6 +70,8 @@
                                 <li><a href="/admin/all_category/"><i class="fa fa-edit"></i>Category</a>
                                 </li>
                                 <li><a href="/admin/all_places/"><i class="fa fa-desktop"></i>Places</a>
+                                </li>
+                                <li><a href="/admin/all_locations/"><i class="fa fa-desktop"></i>Locations</a>
                                 </li>
                             </ul>
                         </div>
@@ -217,9 +220,17 @@
                 <footer>
                     <div class="">
                         <p class="pull-right">
-                            <span class="lead"> <i class="fa fa-paw"></i> Gentelella Alela!</span>
+                            <span class="lead"> <i class="fa fa-paw"></i> TravelX</span>
+                            <div id="message" class="pull-right"></div>
                         </p>
                     </div>
+{#                    {% if messages %}#}
+{#                        <div class="">#}
+{#                            {% for message in messages %}#}
+{#                                <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    {% endif %}#}
 
                 </footer>
                 <!-- /footer content -->
@@ -256,6 +267,31 @@
 
     <script src="{% static "assets/js/datatables/js/jquery.dataTables.js" %}"></script>
     <script src="{% static "assets/js/datatables/tools/js/dataTables.tableTools.js"%}"></script>
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+                $(document).ready(function() {
+                    toastr.options = {
+                      "closeButton": true,
+                      "debug": true,
+                      "newestOnTop": true,
+                      "progressBar": false,
+                      "positionClass": "toast-bottom-right",
+                      "preventDuplicates": true,
+                      "showDuration": "300",
+                      "hideDuration": "1000",
+                      "timeOut": "5000",
+                      "extendedTimeOut": "1000",
+                      "showEasing": "swing",
+                      "hideEasing": "linear",
+                      "showMethod": "fadeIn",
+                      "hideMethod": "fadeOut"
+                    }
+                    toastr["{{ message.tags }}"]("{{ message }}")
+                });
+            {% endfor %}
+        {% endif %}
+    </script>
 
     {% block jscontent %}
     {% endblock %}

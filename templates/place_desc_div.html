@@ -1,0 +1,29 @@
+{% for d in description %}
+    <br>
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Tagline <span class="required">*</span>
+        </label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <input type="text" id="tagline{{ d.id }}" name="tagline{{ d.id }}" required="required" class="form-control col-md-7 col-xs-12" value="{{ d.heading }}">
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <textarea class="resizable_textarea form-control" id="description{{ d.id }}" name="description{{ d.id }}" style="width: 100%; word-wrap: break-word; resize: horizontal; height: 87px;">{{ d.text }}
+            </textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-10">
+            <br>
+            <button onclick="delete_description({{ d.id }})" type="button" class="btn btn-danger">Delete</button>
+            <button onclick="edit_description({{ d.id }})" type="button" class="btn btn-success">Edit</button>
+            <br>
+        </div>
+    </div>
+{% endfor %}

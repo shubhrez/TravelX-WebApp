@@ -5,5 +5,5 @@ urlpatterns = patterns('',
 
 	url(r'^get_categories/$', views.get_categories, name='get_categories'),
 	url(r'^get_places/$', views.get_places, name='get_places'),
-
+	url(r'^get_place_details/$', views.get_place_details, name='get_place_details'),
 	)
