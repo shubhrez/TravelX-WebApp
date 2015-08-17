@@ -1,7 +1,7 @@
 from app.models import *
 from django.http import HttpResponse
 import simplejson
-
+from django.views.decorators.csrf import csrf_exempt
 
 def get_categories(request):
     print "called"
@@ -44,4 +44,13 @@ def get_place_details(request):
     data.append({'description' : description , 'gallery' : gallery,'budget' : place.budget,'duration' : place.duration})
 
     data = simplejson.dumps({'objects' : data})
+    return HttpResponse(data,content_type='application/json')
+
+@csrf_exempt
+def register_app_id(request):
+    data = []
+    if request.method == 'POST':
+        reg_id = request.POST.get('app_id','')
+        app_version = request.POST.get('version_code','')
+        
     return HttpResponse(data,content_type='application/json')

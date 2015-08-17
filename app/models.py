@@ -40,3 +40,8 @@ class Description(BaseModel):
     text = models.TextField()
     heading = models.CharField(max_length=100)
     place = models.ForeignKey(Place,null=True)
+
+def Visitor(BaseModel):
+    app_id = models.CharField(max_length=300)
+    device_id = models.CharField(max_length=200)
+    email = models.CharField(max_length=100)
