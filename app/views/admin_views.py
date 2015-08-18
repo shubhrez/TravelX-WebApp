@@ -9,6 +9,10 @@ import datetime as dt
 from django.contrib import messages
 import os
 from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION,ContentType
+from gcm import GCM
+from app.utils import constant
+import time
+
 
 # def admin_login(request):
 # 	next_page = request.GET.get('next', '')
@@ -495,3 +499,34 @@ def all_logs(request):
 		'logs' : logs,
 	}
 	return render(request,'all_logs.html',context)
+
+def all_visitors(request):
+	visitors = Visitor.objects.all()
+	context = {
+		'visitors' : visitors,
+	}
+	return render(request,'all_visitors.html',context)
+
+def send_notification(request):
+
+	return render(request,'send_notification.html')
+
+def send_notification_with_result(request):
+	title = request.GET.get('title','')
+	message = request.GET.get('message','')
+	print title
+	print message
+
+	data = {'title' : title,'message': message}
+	reg_ids = map(lambda x: x.app_id, Visitor.objects.all())
+	reg_ids
+	n = 1
+	for i in range(0, len(reg_ids), n):
+		print "1"
+		API_KEY = constant.API_KEY
+		gcm = GCM(API_KEY)
+		response = gcm.json_request(registration_ids=reg_ids[i:i + n], data=data)
+
+		time.sleep(1)
+
+	return render(request,'blank_page.html')

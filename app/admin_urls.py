@@ -24,4 +24,7 @@ urlpatterns = patterns('',
 	url(r'^delete_image_from_gallery/$', views.delete_image_from_gallery, name='delete_image_from_gallery'),
 	url(r'^edit_image_from_gallery/$', views.edit_image_from_gallery, name='edit_image_from_gallery'),
 	url(r'^all_logs/$', views.all_logs, name='all_logs'),
+	url(r'^all_visitors/$', views.all_visitors, name='all_visitors'),
+	url(r'^send_notification/$', views.send_notification, name='send_notification'),
+	url(r'^send_notification_with_result/$', views.send_notification_with_result, name='send_notification_with_result'),
 	)

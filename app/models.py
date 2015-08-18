@@ -22,6 +22,8 @@ class Gallery(BaseModel):
 class Location(BaseModel):
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
+    def __unicode__(self):
+        return self.city
 
 class Place(BaseModel):
     name = models.CharField(max_length=100)
@@ -41,7 +43,7 @@ class Description(BaseModel):
     heading = models.CharField(max_length=100)
     place = models.ForeignKey(Place,null=True)
 
-def Visitor(BaseModel):
+class Visitor(BaseModel):
     app_id = models.CharField(max_length=300)
-    device_id = models.CharField(max_length=200)
     email = models.CharField(max_length=100)
+    app_version = models.CharField(max_length=10)

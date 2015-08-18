@@ -50,7 +50,17 @@ def get_place_details(request):
 def register_app_id(request):
     data = []
     if request.method == 'POST':
-        reg_id = request.POST.get('app_id','')
+        app_id = request.POST.get('app_id','')
         app_version = request.POST.get('version_code','')
-        
+        email = request.POST.get('email','')
+
+    visitor = Visitor.objects.filter(email=email)
+    if visitor:
+        visitor = visitor[0]
+        visitor.app_id = app_id
+        visitor.app_version = app_version
+    else:
+        visitor = Visitor(email=email,app_id=app_id,app_version=app_version)
+        visitor.save()
+
     return HttpResponse(data,content_type='application/json')
