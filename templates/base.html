@@ -67,8 +67,10 @@
                             <ul class="nav side-menu">
                                 <li><a href="/admin/home/"><i class="fa fa-home"></i> Home</a>
                                 </li>
+                                {% if perms.app.change_category %}
                                 <li><a href="/admin/all_category/"><i class="fa fa-edit"></i>Category</a>
                                 </li>
+                                {% endif %}
                                 <li><a href="/admin/all_places/"><i class="fa fa-desktop"></i>Places</a>
                                 </li>
                                 <li><a href="/admin/all_locations/"><i class="fa fa-desktop"></i>Locations</a>

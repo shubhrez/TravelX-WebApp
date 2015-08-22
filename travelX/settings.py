@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+from settings_local import *
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -58,12 +59,7 @@ WSGI_APPLICATION = 'travelX.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'travelx',
-    }
-}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -82,8 +78,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -96,3 +92,11 @@ TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
 TEMPLATE_DIRS = [
 os.path.join(BASE_DIR, 'templates')
 ]
+
+INSTALLED_APPS += ('storages',)
+AWS_STORAGE_BUCKET_NAME = "travelx"
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = S3_URL
+
+LOGIN_REDIRECT_URL = '/admin/home/'

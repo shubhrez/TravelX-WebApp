@@ -4,6 +4,7 @@ from django.shortcuts import render, render_to_response, redirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 import urllib
 import datetime as dt
 from django.contrib import messages
@@ -12,49 +13,16 @@ from django.contrib.admin.models import LogEntry, ADDITION,CHANGE,DELETION,Conte
 from gcm import GCM
 from app.utils import constant
 import time
+from app.utils import send_mail
+from django.core.exceptions import PermissionDenied
 
-
-# def admin_login(request):
-# 	next_page = request.GET.get('next', '')
-# 	print next_page
-# 	# logger.debug('user_login request')
-# 	context = {
-# 		'next': next_page
-# 	}
-# 	if request.user:
-# 		if request.user.is_active and request.user.is_staff:
-# 			next_page = request.GET.get('next')
-# 			if next_page:
-# 				return HttpResponseRedirect(next_page)
-# 			return HttpResponseRedirect('/backend/test/')
-# 	if request.method == 'POST':
-# 		username = request.POST['username']
-# 		password = request.POST['password']
-# 		print username + " " + password
-# 		user = authenticate(username=username, password=password)
-# 		if user:
-# 			if user.is_active and user.is_staff:
-# 				login(request, user)
-# 				# logger.debug('user_login ' + username)
-# 				next_page = request.GET.get('next')
-# 				print next_page
-# 				if next_page:
-# 					return HttpResponseRedirect(next_page)
-# 				return HttpResponseRedirect('/backend/test/')
-# 			else:
-# 				return HttpResponse("Your account is disabled.")
-# 		else:
-# 			# logger.debug("Invalid login details: {0}, {1}".format(username, password))
-# 			# logger.debug('user_login ' + username + 'unable to login')
-# 			messages.warning(request, 'Invalid Login Details', context)
-# 			return render(request, 'login.html', context)
-# 	else:
-# 		return render(request, 'login.html', context)
 
 def admin(request):
 	return HttpResponseRedirect('/admin/login/')
 
 def admin_login(request):
+	if request.user.is_authenticated() and request.user.is_staff:
+		return HttpResponseRedirect('/admin/home')
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
@@ -103,6 +71,7 @@ def edit_category(request,id):
 			is_active_value = True
 		category.is_active = is_active_value
 		category.save()
+		send_mail.notify_admin()
 
 		LogEntry.objects.log_action(
 			user_id         = request.user.pk,
@@ -137,35 +106,37 @@ def edit_place(request,id):
 	}
 
 	if request.method == "POST":
-		name = request.POST.get('name','')
-		is_active = request.POST.get('is_active','')
-		short_description = request.POST.get('short_description','')
-		duration = request.POST.get('duration','')
-		budget = request.POST.get('budget','')
+		if request.user.has_perm('app.change_place'):
+			name = request.POST.get('name','')
+			is_active = request.POST.get('is_active','')
+			short_description = request.POST.get('short_description','')
+			duration = request.POST.get('duration','')
+			budget = request.POST.get('budget','')
 
-		category_id = request.POST.get('category','')
-		category = Category.objects.get(pk=category_id)
+			category_id = request.POST.get('category','')
+			category = Category.objects.get(pk=category_id)
 
-		is_active_value = False
-		if is_active == 'on':
-			is_active_value = True
-		place.is_active = is_active_value
-		place.name = name
-		place.short_description = short_description
-		place.duration = duration
-		place.budget = budget
-		place.category=category
-		place.save()
-		LogEntry.objects.log_action(
-			user_id         = request.user.pk,
-			content_type_id = ContentType.objects.get_for_model(place).pk,
-			object_id       = place.pk,
-			object_repr     = str(place),
-			action_flag     = CHANGE,
-			change_message="Changed Category" + str(category.pk)
-		)
-		messages.success(request,"Place Have Been Saved Successfully",context)
-
+			is_active_value = False
+			if is_active == 'on':
+				is_active_value = True
+			place.is_active = is_active_value
+			place.name = name
+			place.short_description = short_description
+			place.duration = duration
+			place.budget = budget
+			place.category=category
+			place.save()
+			LogEntry.objects.log_action(
+				user_id         = request.user.pk,
+				content_type_id = ContentType.objects.get_for_model(place).pk,
+				object_id       = place.pk,
+				object_repr     = str(place),
+				action_flag     = CHANGE,
+				change_message="Changed Category" + str(category.pk)
+			)
+			messages.success(request,"Place Have Been Saved Successfully",context)
+		else:
+			raise PermissionDenied
 
 	return render(request,'edit_place.html',context)
 
@@ -384,13 +355,13 @@ def edit_image_from_gallery(request):
 	place_id = request.GET.get('place_id','')
 	image_url = request.GET.get('image_link','')
 	short_description = request.GET.get('description','')
-	print "called"
 
 	place = Place.objects.get(pk=place_id)
 	# gallery_count = place.gallery.all()
 	# gallery_count = gallery_count.count() + 1
 	gallery = Gallery.objects.get(pk=gallery_id)
 	gallery.short_description = short_description
+	print gallery.short_description
 
 
 	path='app/static/galleryImage/'
@@ -411,7 +382,7 @@ def edit_image_from_gallery(request):
 			image = newpath.replace(to_replace,'/')+place.name+ value + '.jpg'
 			print image
 			gallery.image_link = image
-			gallery.save()
+	gallery.save()
 
 	place = Place.objects.get(pk=place_id)
 	context={
