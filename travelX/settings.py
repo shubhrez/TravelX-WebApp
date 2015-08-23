@@ -78,8 +78,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -93,10 +93,10 @@ TEMPLATE_DIRS = [
 os.path.join(BASE_DIR, 'templates')
 ]
 
-INSTALLED_APPS += ('storages',)
-AWS_STORAGE_BUCKET_NAME = "travelx"
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-STATIC_URL = S3_URL
+# INSTALLED_APPS += ('storages',)
+# AWS_STORAGE_BUCKET_NAME = "travelx"
+# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+# S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+# STATIC_URL = S3_URL
 
 LOGIN_REDIRECT_URL = '/admin/home/'
