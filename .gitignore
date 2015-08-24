@@ -81,3 +81,4 @@ app/static/placeImage/
 .DS_Store
 dump/
 search_engine/*
+venv_new/*
