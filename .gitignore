@@ -75,13 +75,9 @@ dump/*
 app/utils/constant.py
 bin/*
 *.dump
-app/static/tastypie_swagger/
-app/static/suit/
-app/static/gis/
-app/static/geoposition/
-app/static/cms/
-app/static/admin/
-app/static/dump/
+app/static/categoryImage/
+app/static/galleryImage/
+app/static/placeImage/
 .DS_Store
 dump/
 search_engine/*

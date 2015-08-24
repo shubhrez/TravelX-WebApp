@@ -490,7 +490,7 @@ def send_notification_with_result(request):
 
 	data = {'title' : title,'message': message}
 	reg_ids = map(lambda x: x.app_id, Visitor.objects.all())
-	reg_ids
+
 	n = 1
 	for i in range(0, len(reg_ids), n):
 		print "1"
