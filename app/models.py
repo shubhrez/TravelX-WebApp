@@ -21,7 +21,7 @@ class Gallery(BaseModel):
     short_description = models.CharField(max_length=100)
 
 class Location(BaseModel):
-    area = models.CharField(max_length=100,default="")
+    area = models.CharField(max_length=100,default="",blank=True,null=True)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     mpoly = PolygonField()
