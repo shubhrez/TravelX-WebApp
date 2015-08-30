@@ -453,7 +453,7 @@ def all_locations(request):
 @login_required(login_url='/admin/login/')
 def add_location(request):
 
-	if request.method == 'POST':
+	if request.method == "POST":
 		city = request.POST.get('city','')
 		state = request.POST.get('state','')
 		area = request.POST.get('area','')
