@@ -59,6 +59,7 @@ def register_app_id(request):
         visitor = visitor[0]
         visitor.app_id = app_id
         visitor.app_version = app_version
+        visitor.save()
     else:
         visitor = Visitor(email=email,app_id=app_id,app_version=app_version)
         visitor.save()

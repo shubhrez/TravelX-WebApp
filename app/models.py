@@ -1,3 +1,4 @@
+from django.contrib.gis.db.models import PolygonField
 from django.db import models
 
 # Create your models here.
@@ -20,8 +21,11 @@ class Gallery(BaseModel):
     short_description = models.CharField(max_length=100)
 
 class Location(BaseModel):
+    area = models.CharField(max_length=100,default="")
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
+    mpoly = PolygonField()
+
     def __unicode__(self):
         return self.city
 
@@ -29,7 +33,7 @@ class Place(BaseModel):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     image = models.CharField(max_length=200,default="")
-    location = models.ForeignKey(Location)
+    location = models.ForeignKey(Location,null=True)
     short_description = models.CharField(max_length=300,default="")
     duration = models.CharField(max_length=100,default="")
     budget = models.IntegerField(default=0,null=True)
