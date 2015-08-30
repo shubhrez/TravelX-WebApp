@@ -465,9 +465,20 @@ def add_location(request):
 	return render(request,'add_location.html')
 
 def edit_location(request,id):
-	location = Location.objects.get(pk=id)
+
 	if request.method == "POST":
-		id = request.POST.get('l_id','')
+		city = request.POST.get('city','')
+		state = request.POST.get('state','')
+		area = request.POST.get('area','')
+		l_cord = request.POST.get('l_coord','')
+		location = Location.objects.get(pk=id)
+		location.city = city
+		location.area = area
+		location.state = state
+		location.mpoly = l_cord
+		location.save()
+
+	location = Location.objects.get(pk=id)
 	polygon_coordi = simplejson.loads(location.mpoly.json)['coordinates'][0]
 	context = {
 		'location' : location,

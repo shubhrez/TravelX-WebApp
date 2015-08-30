@@ -56,7 +56,6 @@
                                     <form class="form-inline" method="post" action="/admin/edit_location/{{ location.id }}/">
                                         {% csrf_token %}
                                         <input  type="hidden"  autocomplete="off" id="l_coord" name="l_coord"class="form-control">
-                                        <input  type="hidden"  autocomplete="off" id="l_id" name="l_id" class="form-control" value="{{ location.id }}">
                                         <div class="form-group">
                                             <label>Area</label>
                                             <input type="text" name="area" id="area" class="form-control" value="{{ location.area }}">
