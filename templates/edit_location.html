@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block bodycontent %}
-
-
+{% block bodycontent %}\
      <!-- page content -->
             <div class="right_col" role="main">
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
                             <h3>
-                                Add New Location
+                                Edit Location - {{ location.area }}
                             </h3>
                         </div>
 
@@ -55,20 +53,21 @@
 
                                     <h4>Location Details </h4>
 
-                                    <form class="form-inline" method="post" action="/admin/add_location/">
+                                    <form class="form-inline" method="post" action="/admin/edit_location/{{ location.id }}/">
                                         {% csrf_token %}
                                         <input  type="hidden"  autocomplete="off" id="l_coord" name="l_coord"class="form-control">
+                                        <input  type="hidden"  autocomplete="off" id="l_id" name="l_id" class="form-control" value="{{ location.id }}">
                                         <div class="form-group">
                                             <label>Area</label>
-                                            <input type="text" name="area" id="area" class="form-control" placeholder=" ">
+                                            <input type="text" name="area" id="area" class="form-control" value="{{ location.area }}">
                                         </div>
                                         <div class="form-group">
                                             <label>City</label>
-                                            <input type="text" id="city" name="city" class="form-control" placeholder=" ">
+                                            <input type="text" id="city" name="city" class="form-control" value="{{ location.city }}">
                                         </div>
                                         <div class="form-group">
                                             <label>State</label>
-                                            <input type="text" id="state" name="state" class="form-control" placeholder=" ">
+                                            <input type="text" id="state" name="state" class="form-control" value="{{ location.state }}">
                                         </div>
                                         <button type="submit" class="btn btn-default">Save Location</button>
                                     </form>
@@ -101,8 +100,13 @@
             zoom: 12
             });
 
+            {% for point in polygon_cord %}
+                var point= new google.maps.LatLng({{point.0}}, {{point.1}});
+                areaCoordinates.push(point);
+            {% endfor %}
+
             var myPoly = new google.maps.Polygon({
-            path: [],
+            path: areaCoordinates,
             strokeColor: "#FF0000",
             strokeOpacity: 1.0,
             editable:true,

@@ -34,45 +34,46 @@
                                 <div class="x_title">
                                     <h2>All <small>Locations</small></h2>
                                     <ul class="nav navbar-right panel_toolbox">
-                                        <li><a data-toggle="modal" data-target="#model_add_location" class="btn btn-primary" type="button">Add Location</a> </li>
+                                        <li><a href="/admin/add_location/" class="btn btn-primary" type="button">Add Location</a> </li>
 
-                                        <div id="model_add_location" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                                                        </button>
-                                                        <h4 class="modal-title" id="myModalLabel">Add Location</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">City <span class="required">*</span>
-                                                            </label>
-                                                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                                                <input type="text" id="city" name="city" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Tagline">
-                                                            </div>
-                                                        </div>
-                                                        <br>
-                                                        <br>
-
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">State <span class="required">*</span>
-                                                            </label>
-                                                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                                                <input type="text" id="state" name="state" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Tagline">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        <button type="button" onclick="add_new_location()" class="btn btn-primary" data-dismiss="modal">Save & Add</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+{#                                        <div id="model_add_location" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">#}
+{#                                            <div class="modal-dialog modal-lg">#}
+{#                                                <div class="modal-content">#}
+{#                                                    <div class="modal-header">#}
+{#                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>#}
+{#                                                        </button>#}
+{#                                                        <h4 class="modal-title" id="myModalLabel">Add Location</h4>#}
+{#                                                        <h4 id="add_location"><a href="/admin/add_location/">Add Location</a></h4>#}
+{#                                                    </div>#}
+{#                                                    <div class="modal-body">#}
+{#                                                        <div class="form-group">#}
+{#                                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">City <span class="required">*</span>#}
+{#                                                            </label>#}
+{#                                                            <div class="col-md-9 col-sm-9 col-xs-12">#}
+{#                                                                <input type="text" id="city" name="city" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Tagline">#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                        <br>#}
+{#                                                        <br>#}
+{##}
+{#                                                        <div class="form-group">#}
+{#                                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">State <span class="required">*</span>#}
+{#                                                            </label>#}
+{#                                                            <div class="col-md-9 col-sm-9 col-xs-12">#}
+{#                                                                <input type="text" id="state" name="state" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Tagline">#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                    <br>#}
+{#                                                    <br>#}
+{#                                                    <br>#}
+{#                                                    <div class="modal-footer">#}
+{#                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+{#                                                        <button type="button" onclick="add_new_location()" class="btn btn-primary" data-dismiss="modal">Save & Add</button>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
 
                                         <li><a href="#" class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                         </li>
@@ -94,6 +95,7 @@
                                         <thead>
                                             <tr class="headings">
                                                <th>ID</th>
+                                                <th>Area</th>
                                                 <th>City</th>
                                                 <th>State</th>
                                                 <th class=" no-link last"><span class="nobr">Action</span>
@@ -105,6 +107,7 @@
                                             {% for l in locations %}
                                                 <tr class="even pointer">
                                                     <td >{{ l.id }}</td>
+                                                    <td >{{ l.area }}</td>
                                                     <td >{{ l.city }}</td>
                                                     <td >{{ l.state }}</td>
                                                     <td class=" no-link last"><a class="btn btn-success pull-right" href="/admin/edit_location/{{ l.id }}">Edit</a>
@@ -180,19 +183,19 @@
             });
 
         </script>
-
-    <script>
-
-        function add_new_location(){
-            var state = $('#state').val();
-            var city = $('#city').val();
-            if(state!=''){
-                var url = '/admin/add_location/?city='+city+'&state='+state;
-                document.getElementById("location_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';
-                $('#location_div').load(url, function(){
-
-                  });
-            }
-        }
-    </script>
+{##}
+{#    <script>#}
+{##}
+{#        function add_new_location(){#}
+{#            var state = $('#state').val();#}
+{#            var city = $('#city').val();#}
+{#            if(state!=''){#}
+{#                var url = '/admin/add_location/?city='+city+'&state='+state;#}
+{#                document.getElementById("location_div").innerHTML='<img src="{% static "ajax-loader.gif"%}"  style="padding-top:17px;padding-bottom:17px;margin-left: 48%;"/>';#}
+{#                $('#location_div').load(url, function(){#}
+{##}
+{#                  });#}
+{#            }#}
+{#        }#}
+{#    </script>#}
 {% endblock %}

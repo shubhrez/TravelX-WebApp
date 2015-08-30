@@ -1,3 +1,4 @@
+import simplejson
 from app.models import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect
@@ -451,17 +452,29 @@ def all_locations(request):
 
 @login_required(login_url='/admin/login/')
 def add_location(request):
-	city = request.GET.get('city','')
-	state = request.GET.get('state','')
+	if request.method == 'POST':
+		city = request.POST.get('city','')
+		state = request.POST.get('state','')
+		area = request.POST.get('area','')
+		l_cord = request.POST.get('l_coord','')
 
-	location = Location(city=city,state=state)
-	location.save()
+		print city
+		location = Location(city=city,state=state,area=area,mpoly=l_cord)
+		location.save()
 
-	locations = Location.objects.all()
+	return render(request,'add_location.html')
+
+def edit_location(request,id):
+	location = Location.objects.get(pk=id)
+	if request.method == "POST":
+		id = request.POST.get('l_id','')
+	polygon_coordi = simplejson.loads(location.mpoly.json)['coordinates'][0]
 	context = {
-		'locations' : locations,
+		'location' : location,
+		'polygon_cord' : polygon_coordi,
 	}
-	return render(request,'add_location.html',context)
+
+	return render(request,'edit_location.html',context)
 
 def all_logs(request):
 	logs = LogEntry.objects.all()
