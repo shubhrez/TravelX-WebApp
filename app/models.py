@@ -20,15 +20,6 @@ class Gallery(BaseModel):
     image_link = models.CharField(max_length=200)
     short_description = models.CharField(max_length=100)
 
-class Location(BaseModel):
-    area = models.CharField(max_length=100,default="",blank=True,null=True)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    mpoly = PolygonField(blank=True,null=True)
-
-    def __unicode__(self):
-        return self.city
-
 class Place(BaseModel):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
