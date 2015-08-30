@@ -24,7 +24,7 @@ class Location(BaseModel):
     area = models.CharField(max_length=100,default="")
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    mpoly = PolygonField(blank=True,null=True)
+    mpoly = PolygonField()
 
     def __unicode__(self):
         return self.city
