@@ -33,7 +33,7 @@ class Place(BaseModel):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     image = models.CharField(max_length=200,default="")
-    location = models.ForeignKey(Location,null=True)
+    location = models.ForeignKey(Location,null=True,blank=True)
     short_description = models.CharField(max_length=300,default="")
     duration = models.CharField(max_length=100,default="")
     budget = models.IntegerField(default=0,null=True)

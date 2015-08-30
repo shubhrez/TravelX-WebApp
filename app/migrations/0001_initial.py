@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
                 ('area', models.CharField(default=b'', max_length=100)),
                 ('city', models.CharField(max_length=100)),
                 ('state', models.CharField(max_length=100)),
-                ('mpoly', django.contrib.gis.db.models.fields.PolygonField(srid=4326)),
+                ('mpoly', django.contrib.gis.db.models.fields.PolygonField(srid=4326, null=True, blank=True)),
             ],
             options={
                 'abstract': False,
@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('budget', models.IntegerField(default=0, null=True)),
                 ('category', models.ForeignKey(to='app.Category')),
                 ('gallery', models.ManyToManyField(default=None, to='app.Gallery')),
-                ('location', models.ForeignKey(to='app.Location', null=True)),
+                ('location', models.ForeignKey(blank=True, to='app.Location', null=True)),
             ],
             options={
                 'abstract': False,
