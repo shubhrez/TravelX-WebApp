@@ -3,8 +3,8 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'travelx',
         # 'NAME': 'travelx',
-        # 'USER' : 'travelx',
-        # 'PASSWORD' : 'shubh1987',
+        'USER' : 'shubham',
+        'PASSWORD' : '123456',
         # 'HOST' : 'travelx.cuotggeqscvh.ap-southeast-2.rds.amazonaws.com',
         # 'PORT' : '5432',
     }
