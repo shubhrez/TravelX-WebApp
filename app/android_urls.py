@@ -7,4 +7,5 @@ urlpatterns = patterns('',
 	url(r'^get_places/$', views.get_places, name='get_places'),
 	url(r'^get_place_details/$', views.get_place_details, name='get_place_details'),
 	url(r'^register_app_id/$', views.register_app_id, name='register_app_id'),
+	url(r'^get_search_results/$', views.get_search_results, name='get_search_results'),
 	)
