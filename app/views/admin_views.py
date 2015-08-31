@@ -453,16 +453,21 @@ def all_locations(request):
 @login_required(login_url='/admin/login/')
 def add_location(request):
 
+	return render(request,'add_location.html')
+
+@login_required(login_url='/admin/login/')
+def add_new_location(request):
+
 	if request.method == "POST":
 		city = request.POST.get('city','')
 		state = request.POST.get('state','')
 		area = request.POST.get('area','')
 		l_cord = request.POST.get('l_coord','')
-
 		location = Location(city=city,state=state,area=area,mpoly=l_cord)
 		location.save()
 
 	return render(request,'add_location.html')
+
 
 def edit_location(request,id):
 
