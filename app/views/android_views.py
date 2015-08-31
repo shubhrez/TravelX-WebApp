@@ -65,3 +65,21 @@ def register_app_id(request):
         visitor.save()
 
     return HttpResponse(data,content_type='application/json')
+
+def get_search_results(request):
+    data=[]
+    search_regex = request.GET.get('keyword','')
+    keyword = search_regex.split(' ')
+    regex = "^"
+    for key in keyword:
+        regex += "(?=.*" + key.strip() + ")"
+    regex += ".*$"
+    places = Place.objects.filter(name__iregex=regex).distinct()
+    object={}
+    for place in places:
+        object['id']=place.id
+        object['name']=place.name
+        object['location']=place.location.area
+        data.append(object)
+    data = simplejson.dumps({'objects' : data})
+    return HttpResponse(data,content_type='application/json')
