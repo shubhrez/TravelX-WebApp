@@ -16,7 +16,7 @@ from app.utils import constant
 import time
 from app.utils import send_mail
 from django.core.exceptions import PermissionDenied
-
+import shutil
 
 def admin(request):
 	return HttpResponseRedirect('/admin/login/')
@@ -220,7 +220,10 @@ def add_place(request):
 			print "saving place"
 			print place.name
 			place.save()
-			os.mkdir(os.path.join('app/static/galleryImage/', str(place.id)))
+			if os.path.exists(os.path.join('app/static/galleryImage/', str(place.id))):
+				shutil.rmtree(os.path.join('app/static/galleryImage/', str(place.id)))
+			else:
+				os.mkdir(os.path.join('app/static/galleryImage/', str(place.id)))
 			return HttpResponseRedirect('/admin/all_places/')
 
 	return render(request,'add_place.html',context)
