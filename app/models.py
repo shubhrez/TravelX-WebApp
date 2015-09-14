@@ -67,3 +67,8 @@ class Rating(BaseModel):
     place = models.ForeignKey(Place)
     user = models.ForeignKey(User)
     rating = models.IntegerField(default=0)
+
+class Booking(BaseModel):
+    place = models.ForeignKey(Place)
+    user = models.ForeignKey(UserProfile)
+    date_of_booking = models.DateTimeField(blank=True,null=True)
