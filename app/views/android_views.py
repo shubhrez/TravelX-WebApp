@@ -4,9 +4,19 @@ import simplejson
 from django.views.decorators.csrf import csrf_exempt
 
 def get_categories(request):
-    print "called"
     data = []
-    categories = Category.objects.filter(is_active=True)
+    lat = request.GET.get('lat')
+    lng = request.GET.get('lng')
+
+    pkt = 'POINT(' + lat + ' ' + lng + ')'
+    try:
+        location_obj = Location.objects.get(mpoly__contains=pkt)
+    except:
+        location_obj = None
+        data = simplejson.dumps({'objects':data})
+        return HttpResponse(data, content_type='application/json')
+
+    categories = Category.objects.filter(is_active=True,location=location_obj)
     for c in categories:
         data.append({'id':c.id,'name':c.name,'image':c.image})
 
@@ -19,7 +29,16 @@ def get_places(request):
     category = Category.objects.get(pk=category_id)
     places = Place.objects.filter(is_active=True,category=category)
     for p in places:
-        data.append({'id':p.id,'name':p.name,'image':p.image,'location':p.location.city + "," + p.location.state,'short_description':p.short_description})
+        ratings = Rating.objects.filter(place=p)
+        rating = 0
+        total = 0
+        if ratings:
+            for r in ratings:
+                total += 1
+                rating += r.rating
+        if rating > 0:
+            rating = float(rating/total)
+        data.append({'id':p.id,'name':p.name,'rating':rating,'image':p.image,'location':p.location.city + "," + p.location.state,'short_description':p.short_description})
 
     data = simplejson.dumps({'objects':data})
     return HttpResponse(data, content_type='application/json')
@@ -92,7 +111,6 @@ def rate_place(request):
     app_id = request.GET.get("app_id","")
     place = Place.objects.get(pk=place_id)
     user = User.objects.filter(username=email)
-    print user
     if user:
         user = user[0]
     else:
@@ -102,20 +120,20 @@ def rate_place(request):
     if not user_profile:
         user_profile = UserProfile(user=user,app_id=app_id)
         user_profile.save()
+
+    existing_rating = Rating.objects.filter(place=place,user=user)
+    if existing_rating:
+        data="rated"
+        data = simplejson.dumps({'objects' : data})
+        return HttpResponse(data,content_type="application/json")
     if rating == "":
         data="rate"
         data = simplejson.dumps({'objects' : data})
         return HttpResponse(data,content_type="application/json")
     else:
         rating = int(float(rating))
-        existing_rating = Rating.objects.filter(place=place,user=user)
-        if existing_rating:
-            data="rated"
-            data = simplejson.dumps({'objects' : data})
-            return HttpResponse(data,content_type="application/json")
-        else:
-            rating = Rating(place=place,user=user,rating=rating)
-            rating.save()
-            data="rate1"
-            data = simplejson.dumps({'objects' : data})
-            return HttpResponse(data,content_type="application/json")
+        rating = Rating(place=place,user=user,rating=rating)
+        rating.save()
+        data="rate1"
+        data = simplejson.dumps({'objects' : data})
+        return HttpResponse(data,content_type="application/json")

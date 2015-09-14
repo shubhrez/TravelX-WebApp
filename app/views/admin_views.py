@@ -60,18 +60,29 @@ def show_categories(request):
 @login_required(login_url='/admin/login/')
 def edit_category(request,id):
 	category = Category.objects.get(pk=id)
+	locations = Location.objects.all()
+	selected_location = category.location.all()
+
 	context={
 		'category' : category,
+		'locations' : locations,
+		'selected_location' : selected_location,
 	}
 	if request.method == "POST":
 		name = request.POST.get('name','')
 		is_active = request.POST.get('is_active','')
+		location_id = request.POST.get('location','')
+		print location_id
+		location = Location.objects.get(pk=location_id)
+		print location
 		category.name = name
 		is_active_value = False
 		if is_active == 'on':
 			is_active_value = True
 		category.is_active = is_active_value
+		category.location.add(location)
 		category.save()
+		print "hello"
 		send_mail.notify_admin()
 
 		LogEntry.objects.log_action(

@@ -75,6 +75,17 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group">
+                                                                        <label class="control-label col-md-2 col-sm-2 col-xs-2">Location</label>
+                                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                            <select name="location" class="select2_multiple form-control" multiple="multiple">
+                                                                                <option>Choose option</option>
+                                                                                {% for l in locations %}
+                                                                                <option value="{{ l.id }}" {% if l in selected_location %} selected {% endif %}>{{ l.area }}</option>
+                                                                                {% endfor %}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
                                                                         <label for="middle-name" class="control-label col-md-2 col-sm-2 col-xs-2">Is Active</label>
                                                                         <div class="checkbox">
                                                                             <label>
