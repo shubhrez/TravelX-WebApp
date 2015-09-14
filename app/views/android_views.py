@@ -83,3 +83,39 @@ def get_search_results(request):
         data.append(object)
     data = simplejson.dumps({'objects' : data})
     return HttpResponse(data,content_type='application/json')
+
+def rate_place(request):
+    data=""
+    email = request.GET.get("email","")
+    place_id = request.GET.get("place_id","")
+    rating = request.GET.get("rating","")
+    app_id = request.GET.get("app_id","")
+    place = Place.objects.get(pk=place_id)
+    user = User.objects.filter(username=email)
+    print user
+    if user:
+        user = user[0]
+    else:
+        user = User.objects.create_user(username=email, email=email,password=email)
+        user.save()
+    user_profile = UserProfile.objects.filter(user=user)
+    if not user_profile:
+        user_profile = UserProfile(user=user,app_id=app_id)
+        user_profile.save()
+    if rating == "":
+        data="rate"
+        data = simplejson.dumps({'objects' : data})
+        return HttpResponse(data,content_type="application/json")
+    else:
+        rating = int(float(rating))
+        existing_rating = Rating.objects.filter(place=place,user=user)
+        if existing_rating:
+            data="rated"
+            data = simplejson.dumps({'objects' : data})
+            return HttpResponse(data,content_type="application/json")
+        else:
+            rating = Rating(place=place,user=user,rating=rating)
+            rating.save()
+            data="rate1"
+            data = simplejson.dumps({'objects' : data})
+            return HttpResponse(data,content_type="application/json")

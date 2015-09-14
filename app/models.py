@@ -1,5 +1,6 @@
 from django.contrib.gis.db.models import PolygonField
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class BaseModel(models.Model):
@@ -8,13 +9,6 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract =True
-
-class Category(BaseModel):
-    name = models.CharField(max_length=100)
-    is_active = models.BooleanField(default=True)
-    image = models.CharField(max_length=300)
-    def __unicode__(self):
-        return self.name
 
 class Gallery(BaseModel):
     image_link = models.CharField(max_length=200)
@@ -28,6 +22,15 @@ class Location(BaseModel):
 
     def __unicode__(self):
         return self.city
+
+class Category(BaseModel):
+    name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+    image = models.CharField(max_length=300)
+    location = models.ManyToManyField(Location,null=True,blank=True)
+
+    def __unicode__(self):
+        return self.name
 
 class Place(BaseModel):
     name = models.CharField(max_length=100)
@@ -51,3 +54,16 @@ class Visitor(BaseModel):
     app_id = models.CharField(max_length=300)
     email = models.CharField(max_length=100)
     app_version = models.CharField(max_length=10)
+
+class HotPlaces(BaseModel):
+    place = models.ForeignKey(Place)
+    image = models.CharField(max_length=100,default="")
+
+class UserProfile(BaseModel):
+    user = models.OneToOneField(User)
+    app_id = models.CharField(max_length=200)
+
+class Rating(BaseModel):
+    place = models.ForeignKey(Place)
+    user = models.ForeignKey(User)
+    rating = models.IntegerField(default=0)
