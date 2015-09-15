@@ -140,21 +140,31 @@ def rate_place(request):
         data = simplejson.dumps({'objects' : data})
         return HttpResponse(data,content_type="application/json")
 
-def comfirm_booking(request):
+@csrf_exempt
+def confirm_booking(request):
     data = "done"
-    email = request.POST.get("email","")
-    place_id = request.POST.get("place_id","")
-    user = User.objects.filter(username=email)
-    if user:
-        user = user[0]
-    else:
-        user = User.objects.create_user(username=email, email=email,password=email)
-        user.save()
-    place = Place.objects.get(pk=int(place_id))
-    delivery_time = dt.datetime.now()
+    if request.method == "POST":
+        email = request.POST.get("email","")
+        place_id = request.POST.get("place_id","")
+        app_id = request.POST.get("app_id","")
+        user = User.objects.filter(username=email)
+        if user:
+            user = user[0]
+        else:
+            user = User.objects.create_user(username=email, email=email,password=email)
+            user.save()
+        user_profile = UserProfile.objects.filter(user=user,app_id=app_id)
 
-    booking = Booking(user=user,place=place,date_of_booking=delivery_time)
-    booking.save()
+        if user_profile:
+            user_profile = user_profile[0]
+        else:
+            user_profile = UserProfile(user=user,app_id=app_id)
+            user_profile.save()
+        place = Place.objects.get(pk=int(place_id))
+        delivery_time = dt.datetime.now()
 
-    send_mail.notify_cs()
-    return HttpResponse(data,content_type="application/json")
+        booking = Booking(user=user_profile,place=place,date_of_booking=delivery_time)
+        booking.save()
+        # data = simplejson.dumps({'status' : data})
+        send_mail.notify_cs()
+        return HttpResponse(data,content_type="application/json")
