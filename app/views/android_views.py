@@ -150,7 +150,7 @@ def comfirm_booking(request):
     else:
         user = User.objects.create_user(username=email, email=email,password=email)
         user.save()
-    place = Place.objects.get(pk=place_id)
+    place = Place.objects.get(pk=int(place_id))
     delivery_time = dt.datetime.now()
 
     booking = Booking(user=user,place=place,date_of_booking=delivery_time)
