@@ -166,5 +166,5 @@ def confirm_booking(request):
         booking = Booking(user=user_profile,place=place,date_of_booking=delivery_time)
         booking.save()
         # data = simplejson.dumps({'status' : data})
-        send_mail.notify_cs()
+        send_mail.notify_cs(booking)
         return HttpResponse(data,content_type="application/json")

@@ -546,7 +546,9 @@ def send_notification_with_result(request):
 	return render(request,'blank_page.html')
 
 def all_booking(request):
-	context = {
+	bookings = Booking.objects.all()
 
+	context = {
+		'bookings' : bookings,
 	}
 	return render(request,'all_booking.html',context)

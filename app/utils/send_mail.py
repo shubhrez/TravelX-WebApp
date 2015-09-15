@@ -8,5 +8,7 @@ def notify_admin():
     print "send mail"
     send_mail('Category changed ', "Hello", 'shubhamdrolia87@gmail.com', settings.LIST_FOR_MAILS, fail_silently=False)
 
-def notify_cs():
-    send_mail('Category changed ', "Hello", 'shubhamdrolia87@gmail.com', settings.LIST_FOR_MAILS, fail_silently=False)
+def notify_cs(booking):
+    msg=""
+    msg += booking.user.user.email + " " + booking.place.name
+    send_mail('Booking Confirmed ', msg, 'shubhamdrolia87@gmail.com', settings.LIST_FOR_MAILS, fail_silently=False)
