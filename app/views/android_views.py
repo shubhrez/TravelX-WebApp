@@ -2,6 +2,8 @@ from app.models import *
 from django.http import HttpResponse
 import simplejson
 from django.views.decorators.csrf import csrf_exempt
+from app.utils import send_mail
+import datetime as dt
 
 def get_categories(request):
     data = []
@@ -137,3 +139,22 @@ def rate_place(request):
         data="rate1"
         data = simplejson.dumps({'objects' : data})
         return HttpResponse(data,content_type="application/json")
+
+def comfirm_booking(request):
+    data = "done"
+    email = request.POST.get("email","")
+    place_id = request.POST.get("place_id","")
+    user = User.objects.filter(username=email)
+    if user:
+        user = user[0]
+    else:
+        user = User.objects.create_user(username=email, email=email,password=email)
+        user.save()
+    place = Place.objects.get(pk=place_id)
+    delivery_time = dt.datetime.now()
+
+    booking = Booking(user=user,place=place,date_of_booking=delivery_time)
+    booking.save()
+
+    send_mail.notify_cs()
+    return HttpResponse(data,content_type="application/json")

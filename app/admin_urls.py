@@ -29,4 +29,5 @@ urlpatterns = patterns('',
 	url(r'^all_visitors/$', views.all_visitors, name='all_visitors'),
 	url(r'^send_notification/$', views.send_notification, name='send_notification'),
 	url(r'^send_notification_with_result/$', views.send_notification_with_result, name='send_notification_with_result'),
+	url(r'^all_booking/$', views.all_booking, name='all_booking'),
 	)

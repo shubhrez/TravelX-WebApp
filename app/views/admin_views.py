@@ -544,3 +544,9 @@ def send_notification_with_result(request):
 		time.sleep(1)
 
 	return render(request,'blank_page.html')
+
+def all_booking(request):
+	context = {
+
+	}
+	return render(request,'all_booking.html',context)

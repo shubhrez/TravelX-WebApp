@@ -9,4 +9,5 @@ urlpatterns = patterns('',
 	url(r'^register_app_id/$', views.register_app_id, name='register_app_id'),
 	url(r'^get_search_results/$', views.get_search_results, name='get_search_results'),
 	url(r'^rate_place/$', views.rate_place, name='rate_place'),
+	url(r'^comfirm_booking/$', views.comfirm_booking, name='comfirm_booking'),
 	)
