@@ -552,3 +552,10 @@ def all_booking(request):
 		'bookings' : bookings,
 	}
 	return render(request,'all_booking.html',context)
+
+def view_booking(request,id):
+
+	context = {
+
+	}
+	return render(request,'single_booking.html',context)

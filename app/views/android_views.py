@@ -52,10 +52,14 @@ def get_place_details(request):
     place_id = request.GET.get('place_id','')
     place = Place.objects.get(pk=place_id)
     description1 = Description.objects.filter(place=place)
-    description = []
-    for d in description1:
-        desc = {'title' : d.heading,'text':d.text}
-        description.append(desc)
+    description = {}
+    if description1:
+        description = description1[0]
+        description = {'title' : description.heading,'text':description.text}
+    # description = []
+    # for d in description1:
+    #     desc = {'title' : d.heading,'text':d.text}
+    #     description.append(desc)
     gallery1 = place.gallery.all()
     gallery = []
     for g in gallery1:

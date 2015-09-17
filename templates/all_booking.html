@@ -42,6 +42,7 @@
                                                <th>Email </th>
                                                 <th>Place</th>
                                                 <th>Date Of Booking</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
 
@@ -51,6 +52,7 @@
                                                     <td >{{ b.user.user.email }}</td>
                                                     <td class=" ">{{ b.place.name }}</td>
                                                     <td class=" ">{{ b.date_of_booking.date }}</td>
+                                                <td class=" last" style="vertical-align:middle"><a class="btn btn-success pull-right" href="/admin/view_booking/{{ b.id }}">View</a></td>
                                                 </tr>
                                         {% endfor %}
                                         </tbody>

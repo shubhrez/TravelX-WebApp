@@ -30,4 +30,5 @@ urlpatterns = patterns('',
 	url(r'^send_notification/$', views.send_notification, name='send_notification'),
 	url(r'^send_notification_with_result/$', views.send_notification_with_result, name='send_notification_with_result'),
 	url(r'^all_booking/$', views.all_booking, name='all_booking'),
+	url(r'^view_booking/(?P<id>\d+)/$', views.view_booking, name='view_booking'),
 	)
