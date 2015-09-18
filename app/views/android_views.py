@@ -56,6 +56,12 @@ def get_place_details(request):
     if description1:
         description = description1[0]
         description = {'title' : description.heading,'text':description.text}
+
+    highlights = place.highlight.all()
+    highlight=[]
+    for h in highlights:
+        high = {'text' : h.highlight_text}
+        highlight.append(high)
     # description = []
     # for d in description1:
     #     desc = {'title' : d.heading,'text':d.text}
@@ -66,7 +72,7 @@ def get_place_details(request):
         gal = {'image': g.image_link,'short_description' : g.short_description}
         gallery.append(gal)
 
-    data.append({'description' : description , 'gallery' : gallery,'budget' : place.budget,'duration' : place.duration})
+    data.append({'description' : description , 'gallery' : gallery,'highlights':highlight,'budget' : place.budget,'duration' : place.duration})
 
     data = simplejson.dumps({'objects' : data})
     return HttpResponse(data,content_type='application/json')
