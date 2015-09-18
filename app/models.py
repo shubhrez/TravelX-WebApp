@@ -32,6 +32,9 @@ class Category(BaseModel):
     def __unicode__(self):
         return self.name
 
+class Highlight(BaseModel):
+    highlight_text = models.CharField(max_length=200)
+    
 class Place(BaseModel):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
@@ -42,6 +45,7 @@ class Place(BaseModel):
     budget = models.IntegerField(default=0,null=True)
     category = models.ForeignKey(Category)
     gallery = models.ManyToManyField(Gallery,default=None)
+    highlight = models.ManyToManyField(Highlight,blank=True,null=True)
     def __unicode__(self):
         return self.name
 
