@@ -3,7 +3,7 @@ psycopg2==2.6.1
 simplejson==3.7.3
 python-gcm==0.2
 django-appconf==1.0.1
-Pillow==2.8.2
+Pillow==9.3.0
 python-dateutil==2.4.2
 python-mimeparse==0.1.4
 reportlab==3.2.0
